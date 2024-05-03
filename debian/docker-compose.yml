@@ -1,4 +1,9 @@
 services:
   dev:
     image: alanfzf/devcontainer:debian
-    tty: true
+    environment:
+      - TERM=xterm-256color
+    volumes:
+      - dev:/home/alan/
+volumes:
+  dev:
