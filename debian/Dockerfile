@@ -3,30 +3,33 @@ FROM debian:bookworm-slim as debian
 
 # Env vars
 ENV DEBIAN_FRONTEND=noninteractive
-ENV USER=alan
+ENV USER=dev
 
-ENV USER_PW=alan
 # Define the root user
 USER root
 RUN echo 'root:root' | chpasswd
 
 # Define the local user
 RUN useradd -ms /usr/bin/zsh ${USER}
-RUN echo "${USER}:${USER_PW}" | chpasswd
+RUN echo "${USER}:${USER}" | chpasswd
 
 # Grant sudo rights to the user
 RUN usermod -aG sudo ${USER}
 
 # Install base packages
-RUN apt-get update && apt-get install -y sudo git curl wget nodejs npm 
+RUN apt-get update && apt-get install -y \
+      sudo git curl wget \
+      openssh-server
+
+# Configure ssh
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # Run the script setup
 RUN curl -sSf "https://raw.githubusercontent.com/alanfzf/dotfiles/main/scripts/deb_setup.sh" | sh
 
-USER ${USER}
 WORKDIR /home/${USER}
-CMD ["zsh"]
-
+EXPOSE 22
+ENTRYPOINT service ssh start && zsh
 # ======== PHP-7.4 ========
 FROM debian AS debian-php74
 
@@ -38,6 +41,3 @@ RUN apt-get update && apt-get install -y php7.4 php7.4-cli php7.4-json \
       php7.4-common php7.4-mysql php7.4-zip php7.4-gd \
       php7.4-mbstring php7.4-curl php7.4-xml \
       php7.4-bcmath php7.4-intl
-
-USER ${USER}
-CMD ["zsh"]
