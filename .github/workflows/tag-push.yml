@@ -22,7 +22,7 @@ jobs:
       - name: Build and push Debian base image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./debian/Dockerfile
           file: Dockerfile
           push: true
           tags: alanfzf/devcontainer:debian
@@ -31,7 +31,7 @@ jobs:
       - name: Build and push Debian PHP 7.4 image
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./debian/Dockerfile
           file: Dockerfile
           push: true
           tags: alanfzf/devcontainer:debian-php74
