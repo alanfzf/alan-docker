@@ -2,7 +2,7 @@ services:
   dev:
     build:
       context: .
-      target: debian-php74
+      target: debian-php82
     tty: true
     volumes:
       - dev:/home/dev/
