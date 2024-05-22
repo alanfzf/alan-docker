@@ -42,6 +42,9 @@ RUN apt-get update && apt-get install -y php7.4 php7.4-cli php7.4-json \
       php7.4-mbstring php7.4-curl php7.4-xml \
       php7.4-bcmath php7.4-intl
 
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # ======== PHP-8.2 ========
 FROM debian AS debian-php82
 
@@ -53,3 +56,6 @@ RUN apt-get update && apt-get install -y php8.2 php8.2-cli \
       php8.2-common php8.2-mysql php8.2-zip php8.2-gd \
       php8.2-mbstring php8.2-curl php8.2-xml \
       php8.2-bcmath php8.2-intl
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
