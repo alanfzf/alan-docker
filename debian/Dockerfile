@@ -19,7 +19,10 @@ RUN usermod -aG sudo ${USER}
 # Install base packages
 RUN apt-get update && apt-get install -y \
       sudo git curl wget \
-      openssh-server
+      openssh-server locales
+
+# Set english locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
 # Configure ssh
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
