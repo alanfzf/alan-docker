@@ -5,7 +5,5 @@ services:
     volumes:
       - dev:/home/dev/
       - /home/${USER}/.ssh:/home/dev/.ssh/
-    ports:
-      - "22:22"
 volumes:
   dev:
